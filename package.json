@@ -1,0 +1,23 @@
+{
+  "name": "attendance-tracker-v2",
+  "version": "2.0.0",
+  "description": "Modern RFID Attendance Tracking System with Docker",
+  "scripts": {
+    "start": "docker-compose up -d",
+    "stop": "docker-compose down",
+    "restart": "docker-compose restart",
+    "logs": "docker-compose logs -f",
+    "build": "docker-compose up --build -d",
+    "clean": "docker-compose down -v --rmi all"
+  },
+  "keywords": [
+    "attendance",
+    "rfid",
+    "tracking",
+    "docker",
+    "nodejs",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC"
+}

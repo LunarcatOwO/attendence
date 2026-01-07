@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID Attendance Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Attendance Tracker</h1>
+        <div class="header-actions">
+            <button id="manage-btn" class="btn btn-primary">Manage</button>
+            <button id="logout-all-btn" class="btn btn-danger" style="display: none;">Log All Out</button>
+            <button id="theme-toggle" class="btn btn-icon" title="Toggle Theme">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <button class="nav-btn active" data-view="users">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+            </svg>
+            Active Users
+        </button>
+        <button class="nav-btn" data-view="data">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+            </svg>
+            Data & Reports
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Active Users View -->
+        <div id="users-view" class="view active">
+            <div class="user-grid" id="user-grid">
+                <!-- User cards will be dynamically loaded here -->
+            </div>
+            <div id="no-users" class="empty-state" style="display: none;">
+                <svg width="64" height="64" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                </svg>
+                <p>No users are currently signed in</p>
+            </div>
+        </div>
+
+        <!-- Data & Reports View -->
+        <div id="data-view" class="view">
+            <div class="data-controls">
+                <h2>Historical Data</h2>
+                <div class="filter-group">
+                    <label for="season-select">Season:</label>
+                    <select id="season-select" class="select">
+                        <option value="current">Current Season</option>
+                    </select>
+                </div>
+            </div>
+            <div class="data-table-container">
+                <table class="data-table" id="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Hours</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table-body">
+                        <!-- Data rows will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Management Login</h2>
+                <button class="modal-close" id="close-login-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="password-input">Password</label>
+                        <input type="password" id="password-input" class="input" placeholder="Enter management password" required>
+                    </div>
+                    <div id="login-error" class="error-message" style="display: none;"></div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Details</h2>
+                <button class="modal-close" id="close-user-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="details-table" id="user-details-table">
+                    <!-- User details will be loaded here -->
+                </table>
+                <div class="modal-actions">
+                    <button id="logout-user-btn" class="btn btn-danger btn-block">Sign Out User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="add-user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New User</h2>
+                <button class="modal-close" id="close-add-user-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-user-form">
+                    <div class="form-group">
+                        <label for="user-name-input">Name</label>
+                        <input type="text" id="user-name-input" class="input" placeholder="Enter user name" maxlength="32" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rfid-input">RFID Key</label>
+                        <input type="text" id="rfid-input" class="input" placeholder="Enter RFID number" pattern="[0-9]+" required>
+                    </div>
+                    <div id="add-user-error" class="error-message" style="display: none;"></div>
+                    <button type="submit" class="btn btn-primary btn-block">Add User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Add Button (for management users) -->
+    <button id="add-user-fab" class="fab" style="display: none;" title="Add User">
+        <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

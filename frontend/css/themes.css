@@ -1,0 +1,24 @@
+/* Theme-specific styles */
+
+/* Additional light theme adjustments */
+body:not(.dark-theme) {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+}
+
+/* Additional dark theme adjustments */
+body.dark-theme {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+}
+
+/* Smooth theme transition */
+body,
+.header,
+.nav,
+.user-card,
+.modal-content,
+.data-table-container,
+.btn-icon,
+.input,
+.select {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
